@@ -1,0 +1,175 @@
+🎯 Interview Memory Trick
+----------------------------
+COUNT       → HashMap (frequency,non-repeated character,group anagrams)
+DUPLICATE   → HashSet 
+COMMON      → HashSet
+TARGET SUM  → Complement
+GROUP       → HashMap<Key, List<Value>>
+ORDER       → LinkedHashMap
+
+HashMap (frequency,non-repeated character,group anagrams)
+HashSet: (Find duplicates,first repeated character,find common elements,find duplicate numbers)
+
+--------
+HashMap
+-------
+Character/Word frequency
+First non-repeated character
+Group Anagrams
+
+String str="programming";
+Map<Character, Integer> map = new HashMap<>();
+for (char ch : str.toCharArray()) {
+    map.put(ch, map.getOrDefault(ch, 0) + 1);
+}
+Sout(map);  
+Output
+p=1 r=2 o=1 g=2 a=1 m=2 i=1 n=1
+
+String str="java spring java docker spring java";
+Map<String, Integer> map = new HashMap<>();
+for (String word : str.split(" ")) {
+    map.put(word, map.getOrDefault(word, 0) + 1);
+}
+System.out.println(map);
+Output: java=3 spring=2 docker=1
+
+
+// First Non-Repeated Character
+String str = "swiss";
+Map<Character, Integer> map = new LinkedHashMap<>();
+
+for (char ch : str.toCharArray()) {
+    map.put(ch, map.getOrDefault(ch, 0) + 1);
+}
+
+for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+    if (entry.getValue() == 1) {
+        System.out.println("First non-repeated: " + entry.getKey());
+        break;
+    }
+}
+Output: w
+
+// Group Anagrams
+String[] words = {
+    "eat", "tea", "tan", "ate", "nat", "bat"
+};
+
+Map<String, List<String>> map = new HashMap<>();
+for (String word : words) {
+    char[] chars = word.toCharArray();
+    Arrays.sort(chars);
+    String key = new String(chars);
+    map.computeIfAbsent(key, k -> new ArrayList<>())
+       .add(word);
+}
+System.out.println(map.values());
+OUTPUT: [[eat, tea, ate], [bat], [tan, nat]]
+
+
+---------
+HashSet
+---------
+Find duplicates
+first repeated character
+find common elements
+find duplicate numbers
+
+// Find Duplicates Using HashSet
+int[] arr = {10, 20, 30, 20, 40, 10};
+Set<Integer> set = new HashSet<>();
+for (int num : arr) {
+    if (!set.add(num)) {
+        System.out.println("Duplicate: " + num);
+    }
+}
+Output: Duplicate: 20  Duplicate: 10
+
+// first repeated character
+String str = "programming";
+Set<Character> set = new HashSet<>();
+
+for (char ch : str.toCharArray()) {
+    if (!set.add(ch)) {
+        System.out.println("First repeated: " + ch);
+        break;
+    }
+}
+Output: r
+
+// Two Numbers With Target Sum
+int[] arr = {2, 7, 11, 15};
+int target = 9;
+
+Set<Integer> set = new HashSet<>();
+
+for (int num : arr) {
+
+    int complement = target - num;
+
+    if (set.contains(complement)) {
+        System.out.println(complement + " + " + num + " = " + target);
+        break;
+    }
+
+    set.add(num);
+}
+output:2 + 7 = 9
+
+
+// Find Common Elements
+int[] arr1 = {1, 2, 3, 4};
+int[] arr2 = {3, 4, 5, 6};
+
+Set<Integer> set = new HashSet<>();
+
+for (int num : arr1) {
+    set.add(num);
+}
+
+for (int num : arr2) {
+    if (set.contains(num)) {
+        System.out.println(num);
+    }
+}
+OUTPUT: 3, 4
+
+// FIND INTERSECTION
+A = [1, 2, 2, 3]
+B = [2, 2, 4]
+OUTPUT: [2]
+
+Set<Integer> set1 = new HashSet<>();
+
+for (int num : arr1) {
+    set1.add(num);
+}
+
+Set<Integer> result = new HashSet<>();
+for (int num : arr2) {
+    if (set1.contains(num)) {
+        result.add(num);
+    }
+}
+System.out.println(result);
+
+
+// FIND Duplicate Numbers
+int[] arr = {1, 3, 4, 2, 2};
+Set<Integer> set = new HashSet<>();
+for (int num : arr) {
+    if (!set.add(num)) {
+        System.out.println("Duplicate number: " + num);
+    }
+}
+OUTPUT: 2
+
+
+
+
+
+
+
+
+
