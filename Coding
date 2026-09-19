@@ -1,3 +1,502 @@
+--------------------------------------
+🔥 1. String coding — VERY COMMON
+-------------------------------------
+1. Reverse a String
+2. Reverse words in a String
+3. Check Palindrome
+4. Find duplicate characters
+5. Find first non-repeated character
+6. Count character frequency
+7. Check Anagram
+8. Remove duplicate characters
+9. Find longest substring without repeating characters
+10. Count vowels/consonants
+
+1. Reverse a String
+-------------------
+    String str = "hello";
+    String reversed = "";
+    
+    for (int i = str.length() - 1; i >= 0; i--) {
+        reversed += str.charAt(i);
+    }
+    System.out.println(reversed);
+
+2. Reverse words in a String
+----------------------------
+    String str = "Java is easy";
+    
+    String[] words = str.split(" ");
+    String result = "";
+    
+    for (int i = words.length - 1; i >= 0; i--) {
+        result += words[i] + " ";
+    }
+    System.out.println(result.trim());
+
+3. Check Palindrome
+---------------------
+    String str = "madam";
+    
+    String reversed = "";
+    
+    for (int i = str.length() - 1; i >= 0; i--) {
+        reversed += str.charAt(i);
+    }
+    
+    if (str.equals(reversed)) {
+        System.out.println("Palindrome");
+    } else {
+        System.out.println("Not Palindrome");
+    }
+
+4. Find duplicate characters
+----------------------------
+String str = "programming";
+
+Map<Character, Integer> map = new HashMap<>();
+
+for (char ch : str.toCharArray()) {
+    map.put(ch, map.getOrDefault(ch, 0) + 1);
+}
+
+for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+    if (entry.getValue() > 1) {
+        System.out.println(entry.getKey());
+    }
+}
+
+5. Find first non-repeated character
+-------------------------------------
+String str = "swiss";
+
+Map<Character, Integer> map = new LinkedHashMap<>();
+
+for (char ch : str.toCharArray()) {
+    map.put(ch, map.getOrDefault(ch, 0) + 1);
+}
+
+for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+    if (entry.getValue() == 1) {
+        System.out.println("First non-repeated: " + entry.getKey());
+        break;
+    }
+}
+output:w
+
+6. Count character frequency
+------------------------------
+String str = "hello";
+
+Map<Character, Integer> map = new LinkedHashMap<>();
+
+for (char ch : str.toCharArray()) {
+    map.put(ch, map.getOrDefault(ch, 0) + 1);
+}
+
+for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " = " + entry.getValue());
+}
+output:
+        h = 1
+        e = 1
+        l = 2
+        o = 1
+
+
+7. Check Anagram
+-----------------
+    String str1 = "listen";
+    String str2 = "silent";
+    
+    if (str1.length() != str2.length()) {
+        System.out.println("Not Anagram");
+    } else {
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
+    
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+    
+        if (Arrays.equals(arr1, arr2)) {
+            System.out.println("Anagram");
+        } else {
+            System.out.println("Not Anagram");
+        }
+    }
+
+8. Remove duplicate characters
+-------------------------------
+    String str = "programming";
+    
+    Set<Character> set = new LinkedHashSet<>();
+    
+    for (char ch : str.toCharArray()) {
+        set.add(ch);
+    }
+    
+    String result = "";
+    
+    for (char ch : set) {
+        result += ch;
+    }
+    
+    System.out.println(result);
+
+9. Find longest substring without repeating characters
+-------------------------------------------------------
+String str = "abcabcbb";
+
+Set<Character> set = new HashSet<>();
+
+int left = 0;
+int maxLength = 0;
+
+for (int right = 0; right < str.length(); right++) {
+
+    char ch = str.charAt(right);
+
+    while (set.contains(ch)) {
+        set.remove(str.charAt(left));
+        left++;
+    }
+
+    set.add(ch);
+
+    maxLength = Math.max(maxLength, right - left + 1);
+}
+
+System.out.println("Longest length: " + maxLength);
+
+10. Count vowels/consonants
+-----------------------------
+    String str = "Hello World".toLowerCase();
+    
+    int vowels = 0;
+    int consonants = 0;
+    
+    for (char ch : str.toCharArray()) {
+        if (ch >= 'a' && ch <= 'z') {
+            if (ch == 'a' || ch == 'e' ||
+                ch == 'i' || ch == 'o' ||
+                ch == 'u') {
+    
+                vowels++;
+            } else {
+                consonants++;
+            }
+        }
+    }
+    
+    System.out.println("Vowels: " + vowels);
+    System.out.println("Consonants: " + consonants);
+
+
+--------------------------------------------------------
+🔥 Java Array/List Coding — 14 Must-Practice Questions
+--------------------------------------------------------
+
+1. Find Maximum Number
+-------------------------
+Input: [10, 5, 30, 20, 15]
+Output: 30
+int[] arr = {10, 5, 30, 20, 15};
+
+int max = arr[0];
+for (int num : arr) {
+    if (num > max) {
+        max = num;
+    }
+}
+System.out.println("Maximum: " + max);
+Pattern: Keep one variable → compare every element.
+
+2. Find Minimum Number
+-------------------------
+int[] arr = {10, 5, 30, 20, 15};
+
+int min = arr[0];
+for (int num : arr) {
+    if (num < min) {
+        min = num;
+    }
+}
+System.out.println("Minimum: " + min);
+Pattern: Same as maximum, but use <.
+
+3. Find Second Highest Number
+----------------------------------
+Input: [10, 5, 30, 20, 30]
+Output: 20
+int[] arr = {10, 5, 30, 20, 30};
+
+int highest = Integer.MIN_VALUE;
+int secondHighest = Integer.MIN_VALUE;
+
+for (int num : arr) {
+    if (num > highest) {
+        secondHighest = highest;
+        highest = num;
+    }
+    else if (num > secondHighest && num != highest) {
+        secondHighest = num;
+    }
+}
+System.out.println("Second highest: " + secondHighest);
+Remember
+num > highest
+      ↓
+secondHighest = highest
+highest = num
+This is a very common interview pattern.
+
+4. Find Second Lowest Number
+--------------------------------
+int[] arr = {10, 5, 30, 20, 30};
+
+int lowest = Integer.MAX_VALUE;
+int secondLowest = Integer.MAX_VALUE;
+
+for (int num : arr) {
+    if (num < lowest) {
+        secondLowest = lowest;
+        lowest = num;
+    }
+    else if (num < secondLowest && num != lowest) {
+        secondLowest = num;
+    }
+}
+System.out.println("Second lowest: " + secondLowest);
+
+5. Remove Duplicates
+------------------------
+Input: [10, 20, 10, 30, 20, 40]
+Output: [10, 20, 30, 40]
+Use LinkedHashSet when you want to preserve insertion order.
+
+int[] arr = {10, 20, 10, 30, 20, 40};
+
+Set<Integer> set = new LinkedHashSet<>();
+for (int num : arr) {
+    set.add(num);
+}
+System.out.println(set);
+Output:
+[10, 20, 30, 40]
+Pattern: LinkedHashSet = unique + insertion order.
+
+6. Find Duplicate Numbers
+-----------------------------
+int[] arr = {10, 20, 10, 30, 20, 40};
+
+Set<Integer> set = new HashSet<>();
+
+for (int num : arr) {
+    if (!set.add(num)) {
+        System.out.println("Duplicate: " + num);
+    }
+}
+Important concept
+        set.add(num)
+        returns:
+            true  → element was new
+            false → element already exists
+    So:
+        if (!set.add(num))
+        means duplicate found.
+
+7. Find Missing Number
+----------------------
+Suppose: [1, 2, 3, 5]
+Numbers should be: 1 2 3 4 5
+Missing = 4
+Formula approach
+
+int[] arr = {1, 2, 3, 5};
+int n = 5;
+int expectedSum = n * (n + 1) / 2;
+
+int actualSum = 0;
+for (int num : arr) {
+    actualSum += num;
+}
+int missing = expectedSum - actualSum;
+System.out.println("Missing: " + missing);
+Remember
+Expected Sum - Actual Sum = Missing Number
+
+8. Find Even and Odd Numbers
+-------------------------------
+int[] arr = {10, 15, 20, 25, 30};
+
+for (int num : arr) {
+    if (num % 2 == 0) {
+        System.out.println("Even: " + num);
+    } else {
+        System.out.println("Odd: " + num);
+    }
+}
+Core logic
+    num % 2 == 0 → Even
+    num % 2 != 0 → Odd
+
+9. Sort an Array
+--------------------
+Ascending order int[] arr = {40, 10, 30, 20};
+
+Arrays.sort(arr);
+System.out.println(Arrays.toString(arr));
+Output: [10, 20, 30, 40]
+
+Import:
+import java.util.Arrays;
+Interview follow-up
+They may ask:
+"Can you sort it without using Arrays.sort()?"
+
+Then you should know Bubble Sort.
+    int[] arr = {40, 10, 30, 20};
+    for (int i = 0; i < arr.length - 1; i++) {
+        for (int j = 0; j < arr.length - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+System.out.println(Arrays.toString(arr));
+
+10. Find Common Elements Between Two Arrays
+-------------------------------------------
+Input: arr1 = [10, 20, 30, 40]
+       arr2 = [30, 40, 50, 60]
+Output: 30 40
+
+Using Set
+    int[] arr1 = {10, 20, 30, 40};
+    int[] arr2 = {30, 40, 50, 60};
+    
+    Set<Integer> set = new HashSet<>();
+    for (int num : arr1) {
+        set.add(num);
+    }
+    
+    for (int num : arr2) {
+        if (set.contains(num)) {
+            System.out.println("Common: " + num);
+        }
+    }
+Pattern:
+    Array 1 → HashSet
+    Array 2 → contains()
+
+11. Find Sum of Array Elements
+----------------------------------
+    int[] arr = {10, 20, 30, 40};
+
+    int sum = 0;
+    for (int num : arr) {
+        sum += num;
+    }
+System.out.println("Sum: " + sum);
+Output: 100
+
+Remember sum = 0
+sum = sum + num
+
+12. Find Frequency of Each Number
+Input: [10, 20, 10, 30, 20, 10]
+Output:
+        10 = 3
+        20 = 2
+        30 = 1
+
+Use HashMap.
+int[] arr = {10, 20, 10, 30, 20, 10};
+Map<Integer, Integer> map = new LinkedHashMap<>();
+
+for (int num : arr) {
+    map.put(
+        num,  map.getOrDefault(num, 0) + 1
+    );
+}
+
+for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+    System.out.println(
+        entry.getKey() + " = " + entry.getValue()
+    );
+}
+
+Very important pattern
+        map.put(num, map.getOrDefault(num, 0) + 1);
+The same pattern works for:
+        Character frequency
+        Word frequency
+        Number frequency
+
+13. Move Zeros to the End
+-------------------------
+Input: [0, 1, 0, 3, 12]
+Output: [1, 3, 12, 0, 0]
+
+Two-pointer style
+        int[] arr = {0, 1, 0, 3, 12};
+        int index = 0;
+        for (int num : arr) {
+            if (num != 0) {
+                arr[index] = num;
+                index++;
+            }
+        }
+        
+        while (index < arr.length) {
+            arr[index] = 0;
+            index++;
+        }
+        System.out.println(Arrays.toString(arr));
+
+Understand the logic
+        First:
+                [0, 1, 0, 3, 12]
+                    ↓
+                [1, 3, 12, ?, ?]
+        Then fill remaining positions with zero:
+                [1, 3, 12, 0, 0]
+        Pattern: Put valid elements first → fill remaining positions with zero.
+
+14. Find Pair Whose Sum Equals Target
+-------------------------------------
+Input: arr = [2, 7, 11, 15]
+target = 9
+Output: 2 + 7 = 9
+
+Using HashSet
+    int[] arr = {2, 7, 11, 15};
+    int target = 9;
+
+    Set<Integer> set = new HashSet<>();
+    for (int num : arr) {
+        int required = target - num;
+        if (set.contains(required)) {
+            System.out.println(
+                required + " + " + num + " = " + target
+            );
+            break;
+        }
+        set.add(num);
+    }
+
+Understand the key idea
+    For: target = 9 num = 7
+    we calculate:
+    required = 9 - 7  = 2
+    Then ask: set.contains(2)
+
+
+
+
+----------------------------
 🎯 Interview Memory Trick
 ----------------------------
 COUNT       → HashMap (frequency,non-repeated character,group anagrams)
