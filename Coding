@@ -195,6 +195,21 @@ System.out.println("Longest length: " + maxLength);
 --------------------------------------------------------
 🔥 Java Array/List Coding — 14 Must-Practice Questions
 --------------------------------------------------------
+1. Find maximum number
+2. Find minimum number
+3. Find second highest number
+4. Find second lowest number
+5. Remove duplicates
+6. Find duplicate numbers
+7. Find missing number
+8. Find even/odd numbers
+9. Sort an array
+10. Find common elements between two arrays
+11. Find sum of array elements
+12. Find frequency of each number
+13. Move zeros to the end
+14. Find pair whose sum equals target
+
 
 1. Find Maximum Number
 -------------------------
@@ -494,7 +509,381 @@ Understand the key idea
     Then ask: set.contains(2)
 
 
+------------------------------------------
+🔥 3. Java 8 Stream API — MUST PREPARE
+------------------------------------------
+1. Find even numbers
+2. Find odd numbers
+3. Find maximum
+4. Find minimum
+5. Find second highest
+6. Find second lowest
+7. Remove duplicates
+8. Count frequency
+9. Find duplicate elements
+10. Find first non-repeated character
+11. Sort ascending
+12. Sort descending
+13. Sort employees by salary
+14. Group employees by department
+15. Find highest salary in each department
+16. Find second highest salary
+17. Convert List<Employee> → Map<id, Employee>
+18. Find employees whose salary > 50000
+19. Find employees joined after 2023
+20. Partition employees based on salary
 
+
+1. Find Even Numbers
+------------------------
+Input: [10, 15, 20, 25, 30]
+List<Integer> result = numbers.stream()
+        .filter(n -> n % 2 == 0)
+        .toList();
+
+System.out.println(result);
+Output: [10, 20, 30]
+
+Pattern
+        stream()
+           .filter(condition)
+           .toList();
+
+2. Find Odd Numbers
+------------------------
+List<Integer> result = numbers.stream()
+        .filter(n -> n % 2 != 0)
+        .toList();
+
+3. Find Maximum
+----------------
+int max = numbers.stream()
+        .max(Integer::compareTo)
+        .orElseThrow();
+System.out.println(max);
+
+Remember
+        maximum → max()
+        minimum → min()
+
+4. Find Minimum
+------------------
+int min = numbers.stream()
+        .min(Integer::compareTo)
+        .orElseThrow();
+System.out.println(min);
+
+5. Find Second Highest
+------------------------
+This is very important.
+int secondHighest = numbers.stream()
+        .distinct()
+        .sorted(Comparator.reverseOrder())
+        .skip(1)
+        .findFirst()
+        .orElseThrow();
+System.out.println(secondHighest);
+Understand the pipeline
+Suppose: [10, 50, 30, 50, 20]
+After: distinct() [10, 50, 30, 20]
+After: sorted(Comparator.reverseOrder()) [50, 30, 20, 10]
+After: skip(1)[30, 20, 10]
+Then: findFirst() → 30
+
+Memory trick
+    Second Highest
+    ↓
+    distinct
+    ↓
+    descending sort
+    ↓
+    skip(1)
+    ↓
+    findFirst
+
+6. Find Second Lowest
+----------------------
+int secondLowest = numbers.stream()
+        .distinct()
+        .sorted()
+        .skip(1)
+        .findFirst()
+        .orElseThrow();
+System.out.println(secondLowest);
+
+Memory
+    Second Lowest
+    ↓
+    distinct
+    ↓
+    ascending sort
+    ↓
+    skip(1)
+    ↓
+    findFirst
+
+7. Remove Duplicates
+-----------------------
+    List<Integer> result = numbers.stream()
+            .distinct()
+            .toList();
+    System.out.println(result);
+
+Very simple:distinct()= remove duplicates.
+
+8. Count Frequency
+-------------------
+Suppose:
+    List<Integer> numbers = Arrays.asList(10, 20, 10, 30, 20, 10);
+Use groupingBy():
+    Map<Integer, Long> frequency = numbers.stream()
+            .collect(Collectors.groupingBy(
+                    Function.identity(),
+                    Collectors.counting()
+            ));
+    System.out.println(frequency);
+Output: {10=3, 20=2, 30=1}
+
+This pattern is extremely important
+Collectors.groupingBy(
+    Function.identity(),
+    Collectors.counting()
+)
+
+Think:
+        groupingBy → group same elements
+        counting   → count them
+
+9. Find Duplicate Elements
+----------------------------
+Set<Integer> duplicates = numbers.stream()
+        .collect(Collectors.groupingBy(
+                Function.identity(),
+                Collectors.counting()
+        ))
+        .entrySet()
+        .stream()
+        .filter(entry -> entry.getValue() > 1)
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toSet());
+System.out.println(duplicates);
+
+For: [10, 20, 10, 30, 20, 10]
+Output: [10, 20]
+
+Pipeline
+        List
+         ↓
+        groupingBy + counting
+         ↓
+        Map<Integer, Long>
+         ↓
+        entrySet()
+         ↓
+        filter count > 1
+         ↓
+        map key
+
+10. Find First Non-Repeated Character
+--------------------------------------
+Input: "swiss"
+Expected: w
+
+String str = "swiss";
+Character result = str.chars()
+        .mapToObj(c -> (char) c)
+        .collect(Collectors.groupingBy(
+                Function.identity(),
+                LinkedHashMap::new,
+                Collectors.counting()
+        ))
+        .entrySet()
+        .stream()
+        .filter(entry -> entry.getValue() == 1)
+        .map(Map.Entry::getKey)
+        .findFirst()
+        .orElseThrow();
+System.out.println(result);
+
+Why LinkedHashMap?
+Because we need the original character order.
+swiss
+
+s → 2
+w → 1  ← first non-repeated
+i → 1
+So:
+LinkedHashMap
+is important here.
+
+11. Sort Ascending
+----------------------
+List<Integer> result = numbers.stream()
+        .sorted()
+        .toList();
+
+System.out.println(result);
+[10, 20, 30, 40]
+
+12. Sort Descending
+-------------------------
+List<Integer> result = numbers.stream()
+        .sorted(Comparator.reverseOrder())
+        .toList();
+System.out.println(result);
+
+Remember
+    .sorted() → ascending
+    .sorted(Comparator.reverseOrder())→ descending
+
+👨‍💻 Employee Stream Questions
+Now we move into the real interview-level Spring Boot/Java questions.
+
+Suppose we have: List<Employee> employees;
+13. Sort Employees by Salary
+--------------------------------
+Ascending
+List<Employee> result = employees.stream()
+        .sorted(Comparator.comparing(Employee::getSalary))
+        .toList();
+Descending
+List<Employee> result = employees.stream()
+        .sorted(
+            Comparator.comparing(Employee::getSalary)
+                      .reversed()
+        )
+        .toList();
+Important pattern
+Comparator.comparing(Employee::getSalary)
+means:
+Compare employees using their salary.
+
+14. Group Employees by Department
+----------------------------------
+Suppose:
+        IT       → Rahul, Amit
+        HR       → Priya, Neha
+        Finance  → Raj
+Code:
+        Map<String, List<Employee>> result =
+            employees.stream()
+                     .collect(Collectors.groupingBy(
+                          Employee::getDepartment
+            ));
+
+This is one of the most important groupingBy() questions.
+15. Find Highest Salary in Each Department
+-------------------------------------------------
+This is a very common interview question.
+Map<String, Optional<Employee>> result =
+        employees.stream()
+                .collect(Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.maxBy(
+                                Comparator.comparing(Employee::getSalary)
+                        )
+                ));
+Conceptually:
+IT       → highest-paid IT employee
+HR       → highest-paid HR employee
+Finance  → highest-paid Finance employee
+Pattern
+groupingBy
+    +
+maxBy
+
+
+16. Find Second Highest Salary
+-----------------------------------
+For the entire employee list:
+double secondHighestSalary = employees.stream()
+        .map(Employee::getSalary)
+        .distinct()
+        .sorted(Comparator.reverseOrder())
+        .skip(1)
+        .findFirst()
+        .orElseThrow();
+
+System.out.println(secondHighestSalary);
+Very important interview pattern
+map salary
+ ↓
+distinct
+ ↓
+descending sort
+ ↓
+skip 1
+ ↓
+findFirst
+17. Convert List<Employee> → Map<id, Employee>
+This is a very common toMap() question.
+Map<Integer, Employee> employeeMap =
+        employees.stream()
+                .collect(Collectors.toMap(
+                        Employee::getId,
+                        Function.identity()
+                ));
+Result:
+101 → Employee object
+102 → Employee object
+103 → Employee object
+Remember
+Collectors.toMap(
+    key,
+    value
+)
+Here:
+Employee::getId
+→ key
+Function.identity()
+→ Employee object itself.
+18. Find Employees Whose Salary > 50000
+List<Employee> result = employees.stream()
+        .filter(emp -> emp.getSalary() > 50000)
+        .toList();
+Pattern
+filter()
+is used when you want to select elements based on a condition.
+19. Find Employees Joined After 2023
+Assume:
+private LocalDate joiningDate;
+Code:
+List<Employee> result = employees.stream()
+        .filter(emp ->
+                emp.getJoiningDate()
+                   .isAfter(LocalDate.of(2023, 12, 31))
+        )
+        .toList();
+For example:
+2024-01-10 → included
+2025-05-20 → included
+2023-10-15 → excluded
+20. Partition Employees Based on Salary
+Suppose:
+salary > 50000 → High Salary
+salary <= 50000 → Low Salary
+Use:
+partitioningBy()
+Map<Boolean, List<Employee>> result =
+        employees.stream()
+                .collect(Collectors.partitioningBy(
+                        emp -> emp.getSalary() > 50000
+                ));
+Result conceptually:
+true  → employees with salary > 50000
+false → employees with salary <= 50000
+🧠 The 8 Stream Operations You Must Master
+Don't try to memorize 20 programs independently.
+Learn these:
+Operation	Think
+filter()	Select
+map()	Transform
+flatMap()	Flatten
+distinct()	Remove duplicates
+sorted()	Sort
+groupingBy()	Group
+toMap()	Convert to Map
+reduce()	Combine into one result
 
 ----------------------------
 🎯 Interview Memory Trick
